@@ -1,12 +1,10 @@
 {
-    "java.project.sourcePaths": ["src"],
+    "java.project.sourcePaths": [
+        "src/Task 1"
+    ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "c:\\Users\\javev\\Desktop\\gluegen-rt.jar",
-        "c:\\Users\\javev\\Desktop\\gluegen-rt-natives-windows-amd64.jar",
-        "c:\\Users\\javev\\Desktop\\jogl-all.jar",
-        "c:\\Users\\javev\\Desktop\\jogl-all-android-natives-windows-amd64.jar",
         "c:\\Users\\javev\\Desktop\\Til å kjøre OpenGl\\Dette er jar filene\\gluegen-rt.jar",
         "c:\\Users\\javev\\Desktop\\Til å kjøre OpenGl\\Dette er jar filene\\gluegen-rt-natives-windows-amd64.jar",
         "c:\\Users\\javev\\Desktop\\Til å kjøre OpenGl\\Dette er jar filene\\jogl-all.jar",

@@ -22,6 +22,8 @@ public class Figures implements GLEventListener {
 
 
 
+
+
     @Override
     public void display(GLAutoDrawable drawable) {
 

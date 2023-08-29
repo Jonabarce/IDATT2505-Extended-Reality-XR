@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -8,84 +6,45 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 
+public class CubeWithGlut implements GLEventListener {
 
-public class Cube implements GLEventListener {
+    private GLU glu;
+    private GLUT glut;
     
     @Override
-public void display(GLAutoDrawable drawable) {
+    public void display(GLAutoDrawable drawable) {
+
     GL2 gl = drawable.getGL().getGL2();
     gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
     gl.glMatrixMode(GL2.GL_MODELVIEW);
     gl.glLoadIdentity();
-    gl.glTranslatef(0f, 1f, -5f);
+    gl.glTranslatef(0f, 0.5f, -5f);
 
-    // Face1
-    gl.glColor3f(1.0f, 0.0f, 0.0f);
-    gl.glBegin(GL2.GL_LINE_LOOP);
-    gl.glVertex3f(-0.1f, 0.0f, 0.0f);
-    gl.glVertex3f(0.4f, 0.0f, 0.0f);
-    gl.glVertex3f(0.4f, -0.3f, 0.0f);
-    gl.glVertex3f(-0.1f, -0.3f, 0.0f);
+
+    gl.glPushMatrix();
+    gl.glTranslatef(0.5f, 0.0f, 0.0f);
+    gl.glScalef(0.3f, 0.3f, 1.0f);
+    glut.glutWireCube(1.0f);
+    gl.glPopMatrix();
+
+
     gl.glEnd();
-
-    // Face2
-    gl.glColor3f(1.0f, 1.0f, 0.0f);
-    gl.glBegin(GL2.GL_LINE_LOOP);
-    gl.glVertex3f(-0.1f, -0.3f, 0.0f);
-    gl.glVertex3f(-0.1f, -0.3f, 1.0f);
-    gl.glVertex3f(-0.1f, 0.0f, 1.0f);
-    gl.glVertex3f(-0.1f, 0.0f, 0.0f);
-    gl.glEnd();
-
-    // Face3
-    gl.glColor3f(1.0f, 0.0f, 1.0f);
-    gl.glBegin(GL2.GL_LINE_LOOP);
-    gl.glVertex3f(-0.1f, 0.0f, 0.0f);
-    gl.glVertex3f(-0.1f, 0.0f, 1.0f);
-    gl.glVertex3f(0.4f, 0.0f, 1.0f);
-    gl.glVertex3f(0.4f, 0.0f, 0.0f);
-    gl.glEnd();
-
-    // Face4
-    gl.glColor3f(0.0f, 1.0f, 1.0f);
-    gl.glBegin(GL2.GL_LINE_LOOP);
-    gl.glVertex3f(0.4f, 0.0f, 0.0f);
-    gl.glVertex3f(0.4f, 0.0f, 1.0f);
-    gl.glVertex3f(0.4f, -0.3f, 1.0f);
-    gl.glVertex3f(0.4f, -0.3f, 0.0f);
-    gl.glEnd();
-
-    // Face5
-    gl.glColor3f(0.0f, 1.0f, 0.0f);
-    gl.glBegin(GL2.GL_LINE_LOOP);
-    gl.glVertex3f(0.4f, -0.3f, 0.0f);
-    gl.glVertex3f(-0.1f, -0.3f, 0.0f);
-    gl.glVertex3f(-0.1f, -0.3f, 1.0f);
-    gl.glVertex3f(0.4f, -0.3f, 1.0f);
-    gl.glEnd();
-
-    // Face6
-    gl.glColor3f(0.0f, 0.0f, 1.0f);
-    gl.glBegin(GL2.GL_LINE_LOOP);
-    gl.glVertex3f(0.4f, -0.3f, 1.0f);
-    gl.glVertex3f(-0.1f, -0.3f, 1.0f);
-    gl.glVertex3f(-0.1f, 0.0f, 1.0f);
-    gl.glVertex3f(0.4f, 0.0f, 1.0f);
-    gl.glEnd();
-}
-
+    }
 
     @Override
     public void dispose(GLAutoDrawable arg0) {
       //method body
     }  
-    private GLU glu;
+
+
 
     @Override
     public void init(GLAutoDrawable arg0) {
       glu = new GLU();
+      glut = new GLUT();
     }
 
     @Override
@@ -110,7 +69,7 @@ public void display(GLAutoDrawable drawable) {
         GLCapabilities capabilities = new GLCapabilities(profile);
      
         final GLCanvas glcanvas = new GLCanvas(capabilities);
-        Cube l = new Cube();
+        CubeWithGlut l = new CubeWithGlut();
         glcanvas.addGLEventListener(l);
         glcanvas.setSize(1000, 1000);
      

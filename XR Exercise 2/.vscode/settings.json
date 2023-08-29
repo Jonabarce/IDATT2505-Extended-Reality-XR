@@ -1,6 +1,7 @@
 {
     "java.project.sourcePaths": [
-        "src/Task 1"
+        "src/Task 1",
+        "src/Task 2"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [

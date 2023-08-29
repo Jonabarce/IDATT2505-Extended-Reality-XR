@@ -16,33 +16,33 @@ public class GlutCubeWithGluLookAt implements GLEventListener {
     
     @Override
     public void display(GLAutoDrawable drawable) {
-      GL2 gl = drawable.getGL().getGL2();
-      gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-      gl.glMatrixMode(GL2.GL_MODELVIEW);
-      gl.glLoadIdentity();
-      gl.glTranslatef(0f, 0.5f, -7f);
-    glu.gluLookAt(0.0f, 2.0f, 0.0f, 
-                    0.0f, 0.0f, -1.0f, 
-                    0.0f, 1.0f, 0.0f);
-   
-      // First cube: 
-      // Rotation, Translation and Scaling
-      gl.glPushMatrix();
-      gl.glRotatef(45.0f, 0.1f, 1.0f, 0.0f);  
-      gl.glTranslatef(-2.0f, 0.0f, 0.0f);     
-      gl.glScalef(0.5f, 1.5f, 0.5f);          
-      glut.glutWireCube(1.0f);
-      gl.glPopMatrix();
-   
+        GL2 gl = drawable.getGL().getGL2();
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glLoadIdentity();
+        gl.glTranslatef(0f, 0.5f, -7f);
+        glu.gluLookAt(0.0f, 2.0f, 0.0f, 
+                        0.0f, 0.0f, -1.0f, 
+                        0.0f, 1.0f, 0.0f);
+    
+            // First cube: 
+            // Rotation, Translation and Scaling
+        gl.glPushMatrix();
+        gl.glRotatef(45.0f, 0.1f, 1.0f, 0.0f);  
+        gl.glTranslatef(-2.0f, 0.0f, 0.0f);     
+        gl.glScalef(0.5f, 1.5f, 0.5f);          
+        glut.glutWireCube(1.0f);
+        gl.glPopMatrix();
+    
 
-      // Second cube: 
-      // Translation, Scaling, Rotation     
-      gl.glPushMatrix();
-      gl.glTranslatef(2.0f, 0.0f, 0.0f);      
-      gl.glScalef(0.5f, 1.5f, 0.5f);          
-      gl.glRotatef(45.0f, 0.1f, 1.0f, 0.0f); 
-      glut.glutWireCube(1.0f);
-      gl.glPopMatrix();
+        // Second cube: 
+        // Translation, Scaling, Rotation     
+        gl.glPushMatrix();
+        gl.glTranslatef(2.0f, 0.0f, 0.0f);      
+        gl.glScalef(0.5f, 1.5f, 0.5f);          
+        gl.glRotatef(45.0f, 0.1f, 1.0f, 0.0f); 
+        glut.glutWireCube(1.0f);
+        gl.glPopMatrix();
     }
     
     

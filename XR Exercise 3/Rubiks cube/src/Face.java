@@ -21,13 +21,4 @@ public class Face {
         pieces[x][y] = piece;
     }
 
-    public List<Piece> getPieces() {
-        List<Piece> flatPieces = new ArrayList<>();
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                flatPieces.add(pieces[i][j]);
-            }
-        }
-        return flatPieces;
-    }
 }

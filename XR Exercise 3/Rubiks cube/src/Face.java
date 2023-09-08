@@ -21,4 +21,22 @@ public class Face {
         pieces[x][y] = piece;
     }
 
+    public void rotateClockwise() {
+        Piece temp = pieces[0][0];
+        pieces[0][0] = pieces[1][0];
+        pieces[1][0] = pieces[1][1];
+        pieces[1][1] = pieces[0][1];
+        pieces[0][1] = temp;
+    }
+
+    public void rotateCounterClockwise() {
+        Piece temp = pieces[0][0];
+        pieces[0][0] = pieces[0][1];
+        pieces[0][1] = pieces[1][1];
+        pieces[1][1] = pieces[1][0];
+        pieces[1][0] = temp;
+    }
+
+    
+
 }

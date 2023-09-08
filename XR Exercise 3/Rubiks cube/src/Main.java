@@ -1,7 +1,21 @@
+
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import com.jogamp.opengl.util.Animator;
+import javax.swing.*;
+import java.awt.*;
+
+import com.jogamp.opengl.glu.GLU;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+
+
 
 
 public class Main implements GLEventListener {
@@ -11,6 +25,7 @@ public class Main implements GLEventListener {
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
     private float frontRotationAngle = 0;
+    private static Point lastMousePoint;
 
 
     public Main() {
@@ -25,39 +40,74 @@ public class Main implements GLEventListener {
         cube = new Cube(front, back, left, right, top, bottom);
     }
 
-    private void drawPartialRotation(GL2 gl) {
-        if (frontRotationAngle < 90) {
-            gl.glRotatef(frontRotationAngle, 0f, 0f, 1f); // Roter rundt Z-aksen for front ansikt
-            frontRotationAngle += 5; // Increment angle for next frame
-        }
-    }
+    
 
-    private void updateRotation() {
-        if (rotationX < 360.0f) {
-            rotationX += 0.5f;
-        } else if (rotationY < 360.0f) {
-            rotationY += 0.5f;
-        } else {
-            rotationX = 0.0f;
-            rotationY = 0.0f;
-        }
-    }
+    
 
     public static void main(String[] args) {
         final JFrame frame = new JFrame("Rubik's Cube");
         GLCanvas canvas = new GLCanvas();
         Main main = new Main();
         canvas.addGLEventListener(main);
-        frame.add(canvas);
+
+        JButton btnTopClockwise = new JButton("Top Clockwise");
+        btnTopClockwise.addActionListener(e -> main.cube.rotateTopClockwise());
+
+        JButton btnTopCounterClockwise = new JButton("Top Counter Clockwise");
+        btnTopCounterClockwise.addActionListener(e -> main.cube.rotateTopCounterClockwise());
+
+        JButton btnBottomClockwise = new JButton("Bottom Clockwise");
+        btnBottomClockwise.addActionListener(e -> main.cube.rotateBottomClockwise());
+
+        JButton btnBottomCounterClockwise = new JButton("Bottom Counter Clockwise");
+        btnBottomCounterClockwise.addActionListener(e -> main.cube.rotateBottomCounterClockwise());
+
+
+
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(6, 1));
+        buttonPanel.add(btnTopClockwise);
+        buttonPanel.add(btnTopCounterClockwise);
+        buttonPanel.add(btnBottomClockwise);
+        buttonPanel.add(btnBottomCounterClockwise);
+
+        frame.setLayout(new BorderLayout());
+        frame.add(buttonPanel, BorderLayout.EAST);
+        frame.add(canvas, BorderLayout.CENTER);
+
         frame.setSize(400, 400);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
+
         Animator animator = new Animator(canvas);
         animator.start();
-    
+
         canvas.requestFocusInWindow();
+
+        canvas.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (lastMousePoint != null) {
+                    float deltaX = e.getX() - lastMousePoint.x;
+                    float deltaY = e.getY() - lastMousePoint.y;
+        
+                    main.rotationX += deltaY * 0.5f; // Tweak this value as needed
+                    main.rotationY += deltaX * 0.5f; // Tweak this value as needed
+        
+                    canvas.display();
+                }
+                lastMousePoint = e.getPoint();
+            }
+        
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                lastMousePoint = null;
+            }
+        });
     }
+
+
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -71,7 +121,10 @@ public class Main implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 
-        updateRotation(); // Oppdater rotasjonen
+        gl.glLoadIdentity();
+
+        GLU glu = new GLU();
+        glu.gluLookAt(3, 3, 3, 0, 0, 0, 0, 1, 0);
 
         gl.glPushMatrix(); // Lagrer den nåværende transformasjonsmatrisen
         gl.glRotatef(rotationX, 1.0f, 0.0f, 0.0f); // Roter rundt X-aksen
@@ -156,48 +209,31 @@ public class Main implements GLEventListener {
         gl.glEnd();
     }
 
-    private void drawCube(GL2 gl, Piece piece, float offsetX, float offsetY, float offsetZ) {
-        float depth = PIECE_SPACING;  // Antar at dybden av hvert stykke er samme som PIECE_SPACING
     
-        // Tegn forside
-        drawPiece(gl, piece, offsetX, offsetY, offsetZ + depth/2);
-    
-        // Tegn bakside
-        drawPiece(gl, piece, offsetX, offsetY, offsetZ - depth/2);
-    
-        // Tegn venstre side
-        gl.glPushMatrix();
-        gl.glRotatef(-90, 0f, 1f, 0f);
-        drawPiece(gl, piece, offsetX, offsetY, offsetZ);
-        gl.glPopMatrix();
-    
-        // Tegn høyre side
-        gl.glPushMatrix();
-        gl.glRotatef(90, 0f, 1f, 0f);
-        drawPiece(gl, piece, offsetX, offsetY, offsetZ);
-        gl.glPopMatrix();
-    
-        // Tegn topp
-        gl.glPushMatrix();
-        gl.glRotatef(-90, 1f, 0f, 0f);
-        drawPiece(gl, piece, offsetX, offsetY, offsetZ);
-        gl.glPopMatrix();
-    
-        // Tegn bunn
-        gl.glPushMatrix();
-        gl.glRotatef(90, 1f, 0f, 0f);
-        drawPiece(gl, piece, offsetX, offsetY, offsetZ);
-        gl.glPopMatrix();
-    }
     
     
     
     
 
     @Override
-    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-        // Handle window resizing here if necessary
+public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+    GL2 gl = drawable.getGL().getGL2();
+    if (height <= 0) { 
+        height = 1;
     }
+    float aspect = (float) width / (float) height;
+
+    gl.glViewport(0, 0, width, height);
+    gl.glMatrixMode(GL2.GL_PROJECTION);
+    gl.glLoadIdentity();
+
+    // Setting perspective projection
+    GLU glu = new GLU();
+    glu.gluPerspective(45.0, aspect, 0.1, 100.0);
+
+    gl.glMatrixMode(GL2.GL_MODELVIEW);
+    gl.glLoadIdentity();
+}
 
     @Override
     public void dispose(GLAutoDrawable drawable) {

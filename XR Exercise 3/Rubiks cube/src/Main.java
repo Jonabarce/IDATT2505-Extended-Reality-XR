@@ -77,14 +77,18 @@ public class Main implements GLEventListener {
         JButton rotateLeftAboutXAxisDown = new JButton("Rotate left about x axis down");
         rotateLeftAboutXAxisDown.addActionListener(e -> main.cube.rotateLeftSideAboutXAxisDown());
 
-         JButton rotateRightAboutXAxisUp = new JButton("Rotate right about x axis up");
+        JButton rotateRightAboutXAxisUp = new JButton("Rotate right about x axis up");
         rotateRightAboutXAxisUp.addActionListener(e -> main.cube.rotateRightSideAboutXAxisUp());
+
+        JButton rotateRightAboutXAxisDown = new JButton("Rotate right about x axis down");
+        rotateRightAboutXAxisDown.addActionListener(e -> main.cube.rotateRightSideAboutXAxisDown());
+
 
 
 
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(7, 1));
+        buttonPanel.setLayout(new GridLayout(12, 1));
         buttonPanel.add(btnTopClockwise);
         buttonPanel.add(btnTopCounterClockwise);
         buttonPanel.add(btnBottomClockwise);
@@ -92,12 +96,13 @@ public class Main implements GLEventListener {
         buttonPanel.add(rotateLeftAboutXAxisUp);
         buttonPanel.add(rotateLeftAboutXAxisDown);
         buttonPanel.add(rotateRightAboutXAxisUp);
+        buttonPanel.add(rotateRightAboutXAxisDown);
 
         frame.setLayout(new BorderLayout());
         frame.add(buttonPanel, BorderLayout.EAST);
         frame.add(canvas, BorderLayout.CENTER);
 
-        frame.setSize(400, 400);
+        frame.setSize(1000, 1000);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

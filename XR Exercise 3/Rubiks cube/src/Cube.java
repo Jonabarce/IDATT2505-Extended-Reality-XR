@@ -342,20 +342,19 @@ public class Cube {
         front.setPiece(1, 0, tempTopDownRight);
 
 
-        top.setPiece(0, 1, tempBackUpLeft);
-        top.setPiece(0, 0, tempBackDownLeft);  
+        top.setPiece(1, 1, tempBackUpLeft);
+        top.setPiece(1, 0, tempBackDownLeft);  
 
 
-        back.setPiece(1, 1, tempBottomUpRight);
-        back.setPiece(1, 0, tempBottomDownRight);  
+        back.setPiece(0, 1, tempBottomUpRight);
+        back.setPiece(0, 0, tempBottomDownRight);  
 
 
         bottom.setPiece(1, 1, tempFrontUpRight);
         bottom.setPiece(1, 0, tempFrontDownRight);  
 
-
     }
-    
 
+    
     
 }

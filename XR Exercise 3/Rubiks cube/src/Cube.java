@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Scanner;
 
 
 public class Cube {
@@ -67,7 +68,6 @@ public class Cube {
     public void setBottom(Face bottom) {
         this.bottom = bottom;
     }
-    
 
 
     public void rotateTopClockwise() {
@@ -228,47 +228,133 @@ public class Cube {
         back.setPiece(0, 0, tempRightDownLeft);
         back.setPiece(1, 0, tempRightDownRight);
     }
-    
 
-    public void rotateBackClockwise() {
-      
-    }
+    public void rotateLeftSideAboutXAxisUp(){
 
-    public void rotateBackCounterClockwise() {
+        Piece tempFrontUpLeft = front.getPiece(0, 1);
+        Piece tempFrontDownLeft = front.getPiece(0, 0);
 
-    }
+        Piece tempTopUpLeft = top.getPiece(0, 1);
+        Piece tempTopDownLeft = top.getPiece(0, 0);
 
+        Piece tempBackUpRight = back.getPiece(1, 1);
+        Piece tempBackDownRight = back.getPiece(1, 0);
 
+        Piece tempBottomUpLeft = bottom.getPiece(0, 1);
+        Piece tempBottomDownLeft = bottom.getPiece(0, 0);
 
-
-
-    public void rotateLeftClockwise() {
         
-    }
-
-    public void rotateLeftCounterClockwise() {
-
-    }
-
-    public void rotateRightClockwise() {
-       
-    }
-
-    public void rotateRightCounterClockwise() {
-
-    }
-
-    
+        top.setPiece(0, 1, tempFrontUpLeft);
+        top.setPiece(0, 0, tempFrontDownLeft);
 
 
-    public void rotateFrontCounterClockwise() {
+        back.setPiece(1, 1, tempTopUpLeft);
+        back.setPiece(1, 0, tempTopDownLeft);  
+
+
+        bottom.setPiece(0, 1, tempBackUpRight);
+        bottom.setPiece(0, 0, tempBackDownRight);  
+
+
+        front.setPiece(0, 1, tempBottomUpLeft);
+        front.setPiece(0, 0, tempBottomDownLeft);  
+
         
+
     }
 
-    public void rotateFrontClockwise() {
+    public void rotateLeftSideAboutXAxisDown(){
         
+        Piece tempFrontUpLeft = front.getPiece(0, 1);
+        Piece tempFrontDownLeft = front.getPiece(0, 0);
+
+        Piece tempTopUpLeft = top.getPiece(0, 1);
+        Piece tempTopDownLeft = top.getPiece(0, 0);
+
+        Piece tempBackUpRight = back.getPiece(1, 1);
+        Piece tempBackDownRight = back.getPiece(1, 0);
+
+        Piece tempBottomUpLeft = bottom.getPiece(0, 1);
+        Piece tempBottomDownLeft = bottom.getPiece(0, 0);
+
+        front.setPiece(0, 1, tempTopUpLeft);
+        front.setPiece(0, 0, tempTopDownLeft);
+
+        top.setPiece(0, 1, tempBackUpRight);
+        top.setPiece(0, 0, tempBackDownRight);  
+
+        back.setPiece(1, 1, tempBottomUpLeft);
+        back.setPiece(1, 0, tempBottomDownLeft);  
+
+        bottom.setPiece(0, 1, tempFrontUpLeft);
+        bottom.setPiece(0, 0, tempFrontDownLeft);
+
     }
 
+    public void rotateRightSideAboutXAxisUp(){
+
+        Piece tempFrontUpRight = front.getPiece(1, 1);
+        Piece tempFrontDownRight = front.getPiece(1, 0);
+
+        Piece tempTopUpRight = top.getPiece(1, 1);
+        Piece tempTopDownRight = top.getPiece(1, 0);
+
+        Piece tempBackUpLeft = back.getPiece(0, 1);
+        Piece tempBackDownLeft = back.getPiece(0, 0);
+
+        Piece tempBottomUpRight = bottom.getPiece(1, 1);
+        Piece tempBottomDownRight = bottom.getPiece(1, 0);
+
+        
+        top.setPiece(1, 1, tempFrontUpRight);
+        top.setPiece(1, 0, tempFrontDownRight);
+
+
+        back.setPiece(0, 1, tempTopUpRight);
+        back.setPiece(0, 0, tempTopDownRight);  
+
+
+        bottom.setPiece(1, 1, tempBackUpLeft);
+        bottom.setPiece(1, 0, tempBackDownLeft);  
+
+
+        front.setPiece(1, 1, tempBottomUpRight);
+        front.setPiece(1, 0, tempBottomDownRight);  
+
+    }
+
+    public void rotateRightSideAboutXAxisDown(){
+
+        Piece tempFrontUpRight = front.getPiece(1, 1);
+        Piece tempFrontDownRight = front.getPiece(1, 0);
+
+        Piece tempTopUpRight = top.getPiece(1, 1);
+        Piece tempTopDownRight = top.getPiece(1, 0);
+
+        Piece tempBackUpLeft = back.getPiece(0, 1);
+        Piece tempBackDownLeft = back.getPiece(0, 0);
+
+        Piece tempBottomUpRight = bottom.getPiece(1, 1);
+        Piece tempBottomDownRight = bottom.getPiece(1, 0);
+
+        
+        front.setPiece(1, 1, tempTopUpRight);
+        front.setPiece(1, 0, tempTopDownRight);
+
+
+        top.setPiece(0, 1, tempBackUpLeft);
+        top.setPiece(0, 0, tempBackDownLeft);  
+
+
+        back.setPiece(1, 1, tempBottomUpRight);
+        back.setPiece(1, 0, tempBottomDownRight);  
+
+
+        bottom.setPiece(1, 1, tempFrontUpRight);
+        bottom.setPiece(1, 0, tempFrontDownRight);  
+
+
+    }
     
 
     

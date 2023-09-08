@@ -13,6 +13,7 @@ import java.awt.*;
 import com.jogamp.opengl.glu.GLU;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 
 
@@ -29,6 +30,11 @@ public class Main implements GLEventListener {
 
 
     public Main() {
+
+    
+        
+    
+   
         // Initialisering av kube der hver side har en ensartet farge.
         Face front = new Face(new Piece("red", "", ""), new Piece("red", "", ""), new Piece("red", "", ""), new Piece("red", "", ""));
         Face back = new Face(new Piece("orange", "", ""), new Piece("orange", "", ""), new Piece("orange", "", ""), new Piece("orange", "", ""));
@@ -38,6 +44,9 @@ public class Main implements GLEventListener {
         Face bottom = new Face(new Piece("yellow", "", ""), new Piece("yellow", "", ""), new Piece("yellow", "", ""), new Piece("yellow", "", ""));
     
         cube = new Cube(front, back, left, right, top, bottom);
+   
+
+
     }
 
     
@@ -62,15 +71,27 @@ public class Main implements GLEventListener {
         JButton btnBottomCounterClockwise = new JButton("Bottom Counter Clockwise");
         btnBottomCounterClockwise.addActionListener(e -> main.cube.rotateBottomCounterClockwise());
 
+        JButton rotateLeftAboutXAxisUp = new JButton("Rotate left about x axis up");
+        rotateLeftAboutXAxisUp.addActionListener(e -> main.cube.rotateLeftSideAboutXAxisUp());
+
+        JButton rotateLeftAboutXAxisDown = new JButton("Rotate left about x axis down");
+        rotateLeftAboutXAxisDown.addActionListener(e -> main.cube.rotateLeftSideAboutXAxisDown());
+
+         JButton rotateRightAboutXAxisUp = new JButton("Rotate right about x axis up");
+        rotateRightAboutXAxisUp.addActionListener(e -> main.cube.rotateRightSideAboutXAxisUp());
+
 
 
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(6, 1));
+        buttonPanel.setLayout(new GridLayout(7, 1));
         buttonPanel.add(btnTopClockwise);
         buttonPanel.add(btnTopCounterClockwise);
         buttonPanel.add(btnBottomClockwise);
         buttonPanel.add(btnBottomCounterClockwise);
+        buttonPanel.add(rotateLeftAboutXAxisUp);
+        buttonPanel.add(rotateLeftAboutXAxisDown);
+        buttonPanel.add(rotateRightAboutXAxisUp);
 
         frame.setLayout(new BorderLayout());
         frame.add(buttonPanel, BorderLayout.EAST);
@@ -237,6 +258,5 @@ public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height
 
     @Override
     public void dispose(GLAutoDrawable drawable) {
-        // Cleanup resources if any
     }
 }

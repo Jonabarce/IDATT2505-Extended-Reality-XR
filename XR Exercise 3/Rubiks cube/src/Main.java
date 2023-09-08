@@ -7,13 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.jogamp.opengl.util.Animator;
-import javax.swing.*;
 import java.awt.*;
 
 import com.jogamp.opengl.glu.GLU;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 
 
@@ -25,7 +23,6 @@ public class Main implements GLEventListener {
     private static final float PIECE_SPACING = 0.05f;
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
-    private float frontRotationAngle = 0;
     private static Point lastMousePoint;
 
 
@@ -118,8 +115,8 @@ public class Main implements GLEventListener {
                     float deltaX = e.getX() - lastMousePoint.x;
                     float deltaY = e.getY() - lastMousePoint.y;
         
-                    main.rotationX += deltaY * 0.5f; // Tweak this value as needed
-                    main.rotationY += deltaX * 0.5f; // Tweak this value as needed
+                    main.rotationX += deltaY * 0.5f; 
+                    main.rotationY += deltaX * 0.5f; 
         
                     canvas.display();
                 }
@@ -138,8 +135,8 @@ public class Main implements GLEventListener {
     @Override
     public void init(GLAutoDrawable drawable) {
     GL2 gl = drawable.getGL().getGL2();
-    gl.glClearColor(0f, 0f, 0f, 1f); // Set background color to black
-    gl.glEnable(GL2.GL_DEPTH_TEST);  // <-- Add this line
+    gl.glClearColor(0f, 0f, 0f, 1f);
+    gl.glEnable(GL2.GL_DEPTH_TEST);
     }
 
     @Override
@@ -152,9 +149,9 @@ public class Main implements GLEventListener {
         GLU glu = new GLU();
         glu.gluLookAt(3, 3, 3, 0, 0, 0, 0, 1, 0);
 
-        gl.glPushMatrix(); // Lagrer den nåværende transformasjonsmatrisen
-        gl.glRotatef(rotationX, 1.0f, 0.0f, 0.0f); // Roter rundt X-aksen
-        gl.glRotatef(rotationY, 0.0f, 1.0f, 0.0f); // Roter rundt Y-aksen
+        gl.glPushMatrix(); 
+        gl.glRotatef(rotationX, 1.0f, 0.0f, 0.0f); 
+        gl.glRotatef(rotationY, 0.0f, 1.0f, 0.0f); 
 
         drawFace(gl, cube.getFront(), 0f, 0f, 0.5f);
 
@@ -193,7 +190,6 @@ public class Main implements GLEventListener {
             for (int y = 0; y < 2; y++) {
                 Piece piece = face.getPiece(x, y);
                 
-                // Juster posisjonen for hver brikke basert på indeksen
                 float adjustedOffsetX = offsetX + (x - 0.5f) * (PIECE_SIZE + PIECE_SPACING);
                 float adjustedOffsetY = offsetY + (y - 0.5f) * (PIECE_SIZE + PIECE_SPACING);
     
@@ -242,7 +238,7 @@ public class Main implements GLEventListener {
     
 
     @Override
-public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
     GL2 gl = drawable.getGL().getGL2();
     if (height <= 0) { 
         height = 1;
@@ -253,7 +249,6 @@ public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height
     gl.glMatrixMode(GL2.GL_PROJECTION);
     gl.glLoadIdentity();
 
-    // Setting perspective projection
     GLU glu = new GLU();
     glu.gluPerspective(45.0, aspect, 0.1, 100.0);
 

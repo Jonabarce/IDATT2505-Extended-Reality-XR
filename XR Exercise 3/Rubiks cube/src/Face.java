@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Face {
-    private final int SIZE = 2; 
+    final int SIZE = 2; 
     private Piece[][] pieces;
 
     public Face(Piece piece1, Piece piece2, Piece piece3, Piece piece4) {

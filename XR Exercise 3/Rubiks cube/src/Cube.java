@@ -1,3 +1,6 @@
+import java.io.*;
+
+
 public class Cube {
     private Face front;
     private Face back;
@@ -64,6 +67,7 @@ public class Cube {
     public void setBottom(Face bottom) {
         this.bottom = bottom;
     }
+    
 
 
     public void rotateTopClockwise() {

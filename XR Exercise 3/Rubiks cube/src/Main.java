@@ -124,7 +124,7 @@ public class Main implements GLEventListener {
     
 
     Random random = new Random();
-    final int NUM_ROTATIONS = 10000;
+    final int NUM_ROTATIONS = 100;
 
     for (int i = 0; i < NUM_ROTATIONS; i++) {
         int randomIndex = random.nextInt(rotations.size());

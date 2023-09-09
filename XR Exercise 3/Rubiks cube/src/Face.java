@@ -21,6 +21,26 @@ public class Face {
         pieces[x][y] = piece;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                sb.append(pieces[i][j].getColor1());
+                if (j < SIZE - 1) {
+                    sb.append(",");
+                }
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    public static Face fromString(String line) {
+        String[] colors = line.split(",");
+        return new Face(new Piece(colors[0]), new Piece(colors[1]), new Piece(colors[2]), new Piece(colors[3]));
+    }
+
 
 
 

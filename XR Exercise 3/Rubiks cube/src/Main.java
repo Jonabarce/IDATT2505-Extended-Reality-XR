@@ -12,6 +12,14 @@ import java.awt.*;
 import com.jogamp.opengl.glu.GLU;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import java.util.List;
+
 
 
 
@@ -27,28 +35,65 @@ public class Main implements GLEventListener {
 
 
     public Main() {
-
-    
-        
-    
-   
-        // Initialisering av kube der hver side har en ensartet farge.
-        Face front = new Face(new Piece("red", "", ""), new Piece("red", "", ""), new Piece("red", "", ""), new Piece("red", "", ""));
-        Face back = new Face(new Piece("orange", "", ""), new Piece("orange", "", ""), new Piece("orange", "", ""), new Piece("orange", "", ""));
-        Face left = new Face(new Piece("green", "", ""), new Piece("green", "", ""), new Piece("green", "", ""), new Piece("green", "", ""));
-        Face right = new Face(new Piece("blue", "", ""), new Piece("blue", "", ""), new Piece("blue", "", ""), new Piece("blue", "", ""));
-        Face top = new Face(new Piece("white", "", ""), new Piece("white", "", ""), new Piece("white", "", ""), new Piece("white", "", ""));
-        Face bottom = new Face(new Piece("yellow", "", ""), new Piece("yellow", "", ""), new Piece("yellow", "", ""), new Piece("yellow", "", ""));
-    
-        cube = new Cube(front, back, left, right, top, bottom);
-   
-
-
+        cube = loadCubeFromFile("cube.csv");
     }
 
+        public void saveCubeToFile(Cube cube, String filename) {
+        try (PrintWriter writer = new PrintWriter(new File(filename))) {
+            // For hver side av kuben:
+            for (Face face : new Face[]{cube.getFront(), cube.getBack(), cube.getLeft(), cube.getRight(), cube.getTop(), cube.getBottom()}) {
+                for (int x = 0; x < 2; x++) {
+                    for (int y = 0; y < 2; y++) {
+                        writer.print(face.getPiece(x, y).getColor1());
+                        writer.print(",");  // separerer med komma for CSV
+                    }
+                }
+                writer.println();  // ny linje for hver side av kuben
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public Cube loadCubeFromFile(String filename) {
+    try (Scanner scanner = new Scanner(new File(filename))) {
+        List<Face> faces = new ArrayList<>();
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] pieces = line.split(",");
+            Face face = new Face(
+                new Piece(pieces[0]), new Piece(pieces[1]),
+                new Piece(pieces[2]), new Piece(pieces[3])
+            );
+            faces.add(face);
+        }
+
+        return new Cube(faces.get(0), faces.get(1), faces.get(2), faces.get(3), faces.get(4), faces.get(5));
+
+        } catch (FileNotFoundException e) {
+            // Fil ikke funnet, returner en ny kube
+            return initializeFreshCube();
+        }
+    }
+
+    public Cube initializeFreshCube() {
+        Face front = new Face(new Piece("red"), new Piece("red"), new Piece("red"), new Piece("red"));
+        Face back = new Face(new Piece("orange"), new Piece("orange"), new Piece("orange"), new Piece("orange"));
+        Face left = new Face(new Piece("green"), new Piece("green"), new Piece("green"), new Piece("green"));
+        Face right = new Face(new Piece("blue"), new Piece("blue"), new Piece("blue"), new Piece("blue"));
+        Face top = new Face(new Piece("white"), new Piece("white"), new Piece("white"), new Piece("white"));
+        Face bottom = new Face(new Piece("yellow"), new Piece("yellow"), new Piece("yellow"), new Piece("yellow"));
+
+        return new Cube(front, back, left, right, top, bottom);
+    }
+
+
     
 
     
+
+
 
     public static void main(String[] args) {
         final JFrame frame = new JFrame("Rubik's Cube");
@@ -280,5 +325,7 @@ public class Main implements GLEventListener {
 
     @Override
     public void dispose(GLAutoDrawable drawable) {
+        saveCubeToFile(cube, "cube.csv");
+
     }
 }

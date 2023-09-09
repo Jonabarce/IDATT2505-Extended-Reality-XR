@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -19,6 +21,10 @@ public class Cube {
         this.right = right;
         this.top = top;
         this.bottom = bottom;
+    }
+
+    public Cube(){
+
     }
 
     public Face getFront() {
@@ -68,6 +74,7 @@ public class Cube {
     public void setBottom(Face bottom) {
         this.bottom = bottom;
     }
+
 
 
     public void rotateTopClockwise() {

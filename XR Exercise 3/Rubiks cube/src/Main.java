@@ -120,7 +120,8 @@ public class Main implements GLEventListener {
         int randomIndex = random.nextInt(rotations.size());
         rotations.get(randomIndex).run();
     }
-}
+    
+    }
 
     public Cube initializeFreshCube() {
         Face front = new Face(new Piece("red"), new Piece("red"), new Piece("red"), new Piece("red"));
@@ -135,6 +136,7 @@ public class Main implements GLEventListener {
 
 
     public static void main(String[] args) {
+
         final JFrame frame = new JFrame("Rubik's Cube");
         GLCanvas canvas = new GLCanvas();
         Main main = new Main();
@@ -389,4 +391,10 @@ public class Main implements GLEventListener {
         saveCubeToFile(cube, "cube.csv");
 
     }
+
+
+
+    
+
 }
+

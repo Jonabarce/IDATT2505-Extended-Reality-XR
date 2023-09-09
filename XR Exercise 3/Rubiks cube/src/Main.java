@@ -5,6 +5,13 @@ import com.jogamp.opengl.awt.GLCanvas;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
+
 
 import com.jogamp.opengl.util.Animator;
 import java.awt.*;
@@ -19,9 +26,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import java.util.List;
-
-
-
+import java.util.Random;
 
 
 
@@ -40,15 +45,14 @@ public class Main implements GLEventListener {
 
         public void saveCubeToFile(Cube cube, String filename) {
         try (PrintWriter writer = new PrintWriter(new File(filename))) {
-            // For hver side av kuben:
             for (Face face : new Face[]{cube.getFront(), cube.getBack(), cube.getLeft(), cube.getRight(), cube.getTop(), cube.getBottom()}) {
                 for (int x = 0; x < 2; x++) {
                     for (int y = 0; y < 2; y++) {
                         writer.print(face.getPiece(x, y).getColor1());
-                        writer.print(",");  // separerer med komma for CSV
+                        writer.print(",");
                     }
                 }
-                writer.println();  // ny linje for hver side av kuben
+                writer.println();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -56,26 +60,67 @@ public class Main implements GLEventListener {
     }
     
     public Cube loadCubeFromFile(String filename) {
-    try (Scanner scanner = new Scanner(new File(filename))) {
-        List<Face> faces = new ArrayList<>();
-
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            String[] pieces = line.split(",");
-            Face face = new Face(
-                new Piece(pieces[0]), new Piece(pieces[1]),
-                new Piece(pieces[2]), new Piece(pieces[3])
-            );
-            faces.add(face);
-        }
-
-        return new Cube(faces.get(0), faces.get(1), faces.get(2), faces.get(3), faces.get(4), faces.get(5));
-
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            List<Face> faces = new ArrayList<>();
+    
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] pieces = line.split(",");
+                Face face = new Face(
+                    new Piece(pieces[0]), new Piece(pieces[1]),
+                    new Piece(pieces[2]), new Piece(pieces[3])
+                );
+                faces.add(face);
+            }
+    
+        
+            if (faces.size() < 6) {
+                return initializeFreshCube();
+            }
+    
+            return new Cube(faces.get(0), faces.get(1), faces.get(2), faces.get(3), faces.get(4), faces.get(5));
+    
         } catch (FileNotFoundException e) {
-            // Fil ikke funnet, returner en ny kube
             return initializeFreshCube();
         }
     }
+
+    public void clearFile(String filename) {
+        try (PrintWriter writer = new PrintWriter(new File(filename))) {
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onRestartButtonPressed() {
+        clearFile("cube.csv");
+        cube = initializeFreshCube();
+    }
+
+    public void randomizeCube(Cube cube) {
+    List<Runnable> rotations = new ArrayList<>();
+    
+    rotations.add(cube::rotateTopClockwise);
+    rotations.add(cube::rotateTopCounterClockwise);
+    rotations.add(cube::rotateBottomClockwise);
+    rotations.add(cube::rotateBottomCounterClockwise);
+    rotations.add(cube::rotateLeftSideAboutXAxisUp);
+    rotations.add(cube::rotateLeftSideAboutXAxisDown);
+    rotations.add(cube::rotateRightSideAboutXAxisUp);
+    rotations.add(cube::rotateRightSideAboutXAxisDown);
+    rotations.add(cube::rotateFrontSideAboutZAxisClockWise);
+    rotations.add(cube::rotateFrontSideAboutZAxisCounterClockWise);
+    rotations.add(cube::rotateBackSideAboutZAxisClockWise);
+    rotations.add(cube::rotateBackSideAboutZAxisCounterClockWise);
+
+    Random random = new Random();
+    final int NUM_ROTATIONS = 25;
+
+    for (int i = 0; i < NUM_ROTATIONS; i++) {
+        int randomIndex = random.nextInt(rotations.size());
+        rotations.get(randomIndex).run();
+    }
+}
 
     public Cube initializeFreshCube() {
         Face front = new Face(new Piece("red"), new Piece("red"), new Piece("red"), new Piece("red"));
@@ -89,28 +134,22 @@ public class Main implements GLEventListener {
     }
 
 
-    
-
-    
-
-
-
     public static void main(String[] args) {
         final JFrame frame = new JFrame("Rubik's Cube");
         GLCanvas canvas = new GLCanvas();
         Main main = new Main();
         canvas.addGLEventListener(main);
 
-        JButton btnTopClockwise = new JButton("Top Clockwise");
+        JButton btnTopClockwise = new JButton("Top Clockwise about y axis");
         btnTopClockwise.addActionListener(e -> main.cube.rotateTopClockwise());
 
-        JButton btnTopCounterClockwise = new JButton("Top Counter Clockwise");
+        JButton btnTopCounterClockwise = new JButton("Top Counter Clockwise about y axis");
         btnTopCounterClockwise.addActionListener(e -> main.cube.rotateTopCounterClockwise());
 
-        JButton btnBottomClockwise = new JButton("Bottom Clockwise");
+        JButton btnBottomClockwise = new JButton("Bottom Clockwise about y axis");
         btnBottomClockwise.addActionListener(e -> main.cube.rotateBottomClockwise());
 
-        JButton btnBottomCounterClockwise = new JButton("Bottom Counter Clockwise");
+        JButton btnBottomCounterClockwise = new JButton("Bottom Counter Clockwise about y axis");
         btnBottomCounterClockwise.addActionListener(e -> main.cube.rotateBottomCounterClockwise());
 
         JButton rotateLeftAboutXAxisUp = new JButton("Rotate left about x axis up");
@@ -136,37 +175,59 @@ public class Main implements GLEventListener {
 
         JButton  rotateBackSideAboutZAxisCounterClockWise = new JButton("Rotate back side about z axis counter clockwise");
         rotateBackSideAboutZAxisCounterClockWise.addActionListener(e -> main.cube.rotateBackSideAboutZAxisCounterClockWise());
+
+        JButton  onRestartButtonPressed = new JButton("Restart");
+        onRestartButtonPressed.addActionListener(e -> main.onRestartButtonPressed());
         
-
-
+        JButton randomizeButton = new JButton("Randomise");
+        randomizeButton.addActionListener(e -> main.randomizeCube(main.cube));
 
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(14, 1));
-        
-        buttonPanel.add(btnTopClockwise);
-        buttonPanel.add(btnTopCounterClockwise);
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
-        buttonPanel.add(btnBottomClockwise);
-        buttonPanel.add(btnBottomCounterClockwise);
+        // Første seksjon
+        JPanel firstSection = new JPanel(new GridLayout(2, 2, 5, 5));
+        firstSection.add(btnTopClockwise);
+        firstSection.add(btnTopCounterClockwise);
+        firstSection.add(btnBottomClockwise);
+        firstSection.add(btnBottomCounterClockwise);
+        buttonPanel.add(firstSection);
 
-        buttonPanel.add(rotateLeftAboutXAxisUp);
-        buttonPanel.add(rotateLeftAboutXAxisDown);
+        // Andre seksjon
+        JPanel secondSection = new JPanel(new GridLayout(2, 2, 5, 5));
+        secondSection.add(rotateLeftAboutXAxisUp);
+        secondSection.add(rotateLeftAboutXAxisDown);
+        secondSection.add(rotateRightAboutXAxisUp);
+        secondSection.add(rotateRightAboutXAxisDown);
+        buttonPanel.add(secondSection);
 
-        buttonPanel.add(rotateRightAboutXAxisUp);
-        buttonPanel.add(rotateRightAboutXAxisDown);
+        // Tredje seksjon
+        JPanel thirdSection = new JPanel(new GridLayout(2, 2, 5, 5));
+        thirdSection.add(rotateFrontSideAboutZAxisClockWise);
+        thirdSection.add(rotateFrontSideAboutZAxisCounterClockWise);
+        thirdSection.add(rotateBackSideAboutZAxisClockWise);
+        thirdSection.add(rotateBackSideAboutZAxisCounterClockWise);
+        buttonPanel.add(thirdSection);
 
-        buttonPanel.add(rotateFrontSideAboutZAxisClockWise);
-        buttonPanel.add(rotateFrontSideAboutZAxisCounterClockWise);
+        // Fjerde seksjon
+        JPanel fourthSection = new JPanel(new GridLayout(2, 1, 5, 5));
+        fourthSection.add(onRestartButtonPressed);
+        fourthSection.add(randomizeButton);
+        buttonPanel.add(fourthSection);
 
-        buttonPanel.add(rotateBackSideAboutZAxisClockWise);
-        buttonPanel.add(rotateBackSideAboutZAxisCounterClockWise);
+        // Legger til litt mellomrom mellom seksjonene ved hjelp av Borders
+        int padding = 10; // 10 pixels mellomrom
+        firstSection.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
+        secondSection.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
+        thirdSection.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
+        fourthSection.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
 
         frame.setLayout(new BorderLayout());
         frame.add(buttonPanel, BorderLayout.EAST);
         frame.add(canvas, BorderLayout.CENTER);
 
-        frame.setSize(1000, 1000);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

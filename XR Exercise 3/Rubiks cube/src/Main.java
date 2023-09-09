@@ -28,6 +28,12 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.Random;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.Random;
+
 
 
 public class Main implements GLEventListener {
@@ -98,29 +104,52 @@ public class Main implements GLEventListener {
     }
 
     public void randomizeCube(Cube cube) {
-    List<Runnable> rotations = new ArrayList<>();
+        List<Pair<Runnable, String>> rotations = new ArrayList<>();
+
+        
+        rotations.add(new Pair<>(cube::rotateTopClockwise, "rotateTopClockwise"));
+        rotations.add(new Pair<>(cube::rotateTopCounterClockwise, "rotateTopCounterClockwise"));
+        rotations.add(new Pair<>(cube::rotateBottomClockwise, "rotateBottomClockwise"));
+        rotations.add(new Pair<>(cube::rotateBottomCounterClockwise, "rotateBottomCounterClockwise"));
+        rotations.add(new Pair<>(cube::rotateLeftSideAboutXAxisUp, "rotateLeftSideAboutXAxisUp"));
+        rotations.add(new Pair<>(cube::rotateLeftSideAboutXAxisDown, "rotateLeftSideAboutXAxisDown"));
+        rotations.add(new Pair<>(cube::rotateRightSideAboutXAxisUp, "rotateRightSideAboutXAxisUp"));
+        rotations.add(new Pair<>(cube::rotateRightSideAboutXAxisDown, "rotateRightSideAboutXAxisDown"));
+        rotations.add(new Pair<>(cube::rotateFrontSideAboutZAxisClockWise,  "rotateFrontSideAboutZAxisClockWise"));
+        rotations.add(new Pair<>(cube::rotateFrontSideAboutZAxisCounterClockWise, "rotateFrontSideAboutZAxisCounterClockWise"));
+        rotations.add(new Pair<>(cube::rotateBackSideAboutZAxisClockWise, "rotateBackSideAboutZAxisClockWise"));
+        rotations.add(new Pair<>(cube::rotateBackSideAboutZAxisCounterClockWise, "rotateBackSideAboutZAxisCounterClockWise"));
     
-    rotations.add(cube::rotateTopClockwise);
-    rotations.add(cube::rotateTopCounterClockwise);
-    rotations.add(cube::rotateBottomClockwise);
-    rotations.add(cube::rotateBottomCounterClockwise);
-    rotations.add(cube::rotateLeftSideAboutXAxisUp);
-    rotations.add(cube::rotateLeftSideAboutXAxisDown);
-    rotations.add(cube::rotateRightSideAboutXAxisUp);
-    rotations.add(cube::rotateRightSideAboutXAxisDown);
-    rotations.add(cube::rotateFrontSideAboutZAxisClockWise);
-    rotations.add(cube::rotateFrontSideAboutZAxisCounterClockWise);
-    rotations.add(cube::rotateBackSideAboutZAxisClockWise);
-    rotations.add(cube::rotateBackSideAboutZAxisCounterClockWise);
+  
+    
 
     Random random = new Random();
-    final int NUM_ROTATIONS = 25;
+    final int NUM_ROTATIONS = 10000;
 
     for (int i = 0; i < NUM_ROTATIONS; i++) {
         int randomIndex = random.nextInt(rotations.size());
-        rotations.get(randomIndex).run();
+        Pair<Runnable, String> randomRotation = rotations.get(randomIndex);
+        
+        randomRotation.getFirst().run();
     }
+}
+
+    class Pair<T, U> {
+        private final T first;
+        private final U second;
     
+        public Pair(T first, U second) {
+            this.first = first;
+            this.second = second;
+        }
+    
+        public T getFirst() {
+            return first;
+        }
+    
+        public U getSecond() {
+            return second;
+        }
     }
 
     public Cube initializeFreshCube() {
@@ -133,6 +162,7 @@ public class Main implements GLEventListener {
 
         return new Cube(front, back, left, right, top, bottom);
     }
+
 
 
     public static void main(String[] args) {

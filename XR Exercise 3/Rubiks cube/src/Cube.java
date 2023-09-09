@@ -123,6 +123,7 @@ public class Cube {
         right.setPiece(0, 1, tempBackUpLeft);
         right.setPiece(1, 1, tempBackUpRight);
 
+        
         top.setPiece(0, 0, tempTopDownRight);
         top.setPiece(1, 0, tempTopUpRight);
         top.setPiece(0, 1, tempTopDownLeft);
@@ -215,27 +216,26 @@ public class Cube {
         right.setPiece(0, 0, tempBackDownLeft);
         right.setPiece(1, 0, tempBackDownRight);
 
-        bottom.setPiece(0, 0, tempBottomDownRight);
-        bottom.setPiece(1, 0, tempBottomUpRight);
-        bottom.setPiece(0, 1, tempBottomDownLeft);
-        bottom.setPiece(1, 1, tempBottomUpLeft);
+
+
+        bottom.setPiece(0, 0, tempBottomUpLeft);
+        bottom.setPiece(1, 0, tempBottomDownLeft);
+        bottom.setPiece(0, 1, tempBottomUpRight);
+        bottom.setPiece(1, 1, tempBottomDownRight);
 
     }
 
      public void rotateBottomCounterClockwise() {
-        // Lagrer de to nederste stykkene fra Front (rød) siden
+
         Piece tempFrontDownLeft = front.getPiece(0, 0);
         Piece tempFrontDownRight = front.getPiece(1, 0);
 
-        // Lagrer de to nederste stykkene fra Back (oransje) siden
         Piece tempBackDownLeft = back.getPiece(0, 0);
         Piece tempBackDownRight = back.getPiece(1, 0);
 
-        // Lagrer de to nederste stykkene fra Left (grønn) siden
         Piece tempLeftDownLeft = left.getPiece(0, 0);
         Piece tempLeftDownRight = left.getPiece(1, 0);
 
-        // Lagrer de to nederste stykkene fra Right (blå) siden
         Piece tempRightDownLeft = right.getPiece(0, 0);
         Piece tempRightDownRight = right.getPiece(1, 0);
 
@@ -260,10 +260,10 @@ public class Cube {
         back.setPiece(0, 0, tempRightDownLeft);
         back.setPiece(1, 0, tempRightDownRight);
     
-        bottom.setPiece(0, 0, tempBottomUpLeft);
-        bottom.setPiece(1, 0, tempBottomDownLeft);
-        bottom.setPiece(0, 1, tempBottomUpRight);
-        bottom.setPiece(1, 1, tempBottomDownRight);
+        bottom.setPiece(0, 0, tempBottomDownRight);
+        bottom.setPiece(1, 0, tempBottomUpRight);
+        bottom.setPiece(0, 1, tempBottomDownLeft);
+        bottom.setPiece(1, 1, tempBottomUpLeft);
     }
 
     public void rotateLeftSideAboutXAxisUp(){
@@ -513,8 +513,8 @@ public class Cube {
         Piece tempLeftUpLeft = left.getPiece(0, 1);
         Piece tempLeftDownLeft = left.getPiece(0, 0);
 
-        Piece tempBottomUpLeft = bottom.getPiece(0, 1);
-        Piece tempBottomUpRight = bottom.getPiece(1, 1);
+        Piece tempBottomDownLeft = bottom.getPiece(0, 0);
+        Piece tempBottomDownRight = bottom.getPiece(1, 0);
 
 
         Piece tempBackUpLeft = back.getPiece(0, 1);
@@ -528,8 +528,8 @@ public class Cube {
         bottom.setPiece(0, 0, tempRightDownRight);
         bottom.setPiece(1, 0, tempRightUpRight);
 
-        left.setPiece(0, 1, tempBottomUpLeft);
-        left.setPiece(0, 0, tempBottomUpRight);
+        left.setPiece(0, 1, tempBottomDownLeft);
+        left.setPiece(0, 0, tempBottomDownRight);
 
         top.setPiece(0, 1, tempLeftDownLeft);
         top.setPiece(1, 1, tempLeftUpLeft);

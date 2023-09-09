@@ -80,20 +80,42 @@ public class Main implements GLEventListener {
         JButton rotateRightAboutXAxisDown = new JButton("Rotate right about x axis down");
         rotateRightAboutXAxisDown.addActionListener(e -> main.cube.rotateRightSideAboutXAxisDown());
 
+        JButton rotateFrontSideAboutZAxisClockWise = new JButton("Rotate front side about z axis clockwise");
+        rotateFrontSideAboutZAxisClockWise.addActionListener(e -> main.cube.rotateFrontSideAboutZAxisClockWise());
+
+        JButton rotateFrontSideAboutZAxisCounterClockWise = new JButton("Rotate front side about z axis counter clockwise");
+        rotateFrontSideAboutZAxisCounterClockWise.addActionListener(e -> main.cube.rotateFrontSideAboutZAxisCounterClockWise());
+
+        JButton rotateBackSideAboutZAxisClockWise = new JButton("Rotate back side about z axis clockwise");
+        rotateBackSideAboutZAxisClockWise.addActionListener(e -> main.cube.rotateBackSideAboutZAxisClockWise());
+
+        JButton  rotateBackSideAboutZAxisCounterClockWise = new JButton("Rotate back side about z axis counter clockwise");
+        rotateBackSideAboutZAxisCounterClockWise.addActionListener(e -> main.cube.rotateBackSideAboutZAxisCounterClockWise());
+        
 
 
 
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(12, 1));
+        buttonPanel.setLayout(new GridLayout(14, 1));
+        
         buttonPanel.add(btnTopClockwise);
         buttonPanel.add(btnTopCounterClockwise);
+
         buttonPanel.add(btnBottomClockwise);
         buttonPanel.add(btnBottomCounterClockwise);
+
         buttonPanel.add(rotateLeftAboutXAxisUp);
         buttonPanel.add(rotateLeftAboutXAxisDown);
+
         buttonPanel.add(rotateRightAboutXAxisUp);
         buttonPanel.add(rotateRightAboutXAxisDown);
+
+        buttonPanel.add(rotateFrontSideAboutZAxisClockWise);
+        buttonPanel.add(rotateFrontSideAboutZAxisCounterClockWise);
+
+        buttonPanel.add(rotateBackSideAboutZAxisClockWise);
+        buttonPanel.add(rotateBackSideAboutZAxisCounterClockWise);
 
         frame.setLayout(new BorderLayout());
         frame.add(buttonPanel, BorderLayout.EAST);
